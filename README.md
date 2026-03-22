@@ -34,9 +34,6 @@ The project demonstrates the use of JavaScript concepts such as fetching data fr
 * 🌗 **Dark / Light Mode**
   Toggle between themes with preference saved in localStorage.
 
-* ⏳ **Debounced Search**
-  Improves performance by delaying search execution.
-
 * 📱 **Responsive Design**
   Works smoothly on mobile, tablet, and desktop screens.
 
@@ -71,16 +68,6 @@ The API provides country data such as name, flag, capital, population, and regio
 * Event handling
 * Local Storage usage
 * Responsive design with CSS
-
----
-
-## ▶️ How to Run
-
-1. Download or clone the repository
-2. Open the project folder
-3. Open `index.html` in your browser
-
-No installation or dependencies required.
 
 ---
 
