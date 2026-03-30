@@ -23,9 +23,34 @@
                     <input type="text" id="searchInput" placeholder="Search country...">
                     <button id="searchButton">Search</button>
                 </div>
+                <div class="filter-box">
+                    <select id="regionFilter">
+                        <option value="">Filter by Region</option>
+                        <option value="Africa">Africa</option>
+                        <option value="Americas">Americas</option>
+                        <option value="Asia">Asia</option>
+                        <option value="Europe">Europe</option>
+                        <option value="Oceania">Oceania</option>
+                    </select>
+
+                    <select id="populationFilter">
+                    <option value="">All Population</option>
+                    <option value="below-1m">Below 1M</option>
+                    <option value="1m-50m">1M to 50M</option>
+                    <option value="above-50m">Above 50M</option>
+                    </select>
+
+                    <select id="sortBy">
+                    <option value="">Sort By</option>
+                    <option value="name">Name (A-Z)</option>
+                    <option value="population">Population (High to Low)</option>
+                    </select>
+
+                    <button id="resetBtn" class="reset-btn">Reset Filters</button>
+                </div>
             </div>
         </main>
     </div>
+    <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 </html>

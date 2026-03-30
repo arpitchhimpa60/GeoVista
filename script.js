@@ -14,38 +14,43 @@ async function renderCountries(){
     let data = await fetchCountries();
 
     data.forEach((country) => {
-        let card = document.createElement('div');
-        card.className = 'country-card';
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'country-card';
+        itemDiv.style.border = "3px solid #0a0a0a";
 
-        let countryFlag = document.createElement('img');
-        countryFlag.src = country.flags.png;
-        countryFlag.alt = "Flag of " + country.name.common;
-
-        
         let countryName = document.createElement('h2');
         countryName.textContent = "Country: " + country.name.common;
         
-        
+        let countryFlag = document.createElement('img');
+        countryFlag.src = country.flags.png;
+        countryFlag.alt = "Flag of " + country.name.common; 
+        countryFlag.className = 'flag-image';    
+
         let countryCapital = document.createElement('p');
         countryCapital.textContent = "Capital: " + country.capital[0];
         
         let countryPopulation = document.createElement('p');
         countryPopulation.textContent = "Population: " + country.population;
-        
+
         let countryRegion = document.createElement('p');
         countryRegion.textContent = "Region: " + country.region;
-        
-        const content = document.createElement('div');
-        content.className = 'card-content';
-        content.innerHTML = `
-        <h2>${country.name.common}</h2>
-        <div class="card-info"><span>${country.capital[0]}</span></div>
-        <div class="card-info"><span>${country.population}</span></div>
-        <div class="card-info"><span>${country.region}</span></div>
-        `;
 
-        card.append( countryFlag,countryName, countryCapital, countryPopulation, countryRegion, content);
-        document.querySelector('.container').appendChild(card);
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+        contentDiv.style.backgroundColor = "rgb(164, 132, 132)";
+
+        contentDiv.append(countryName, countryCapital, countryPopulation, countryRegion);
+
+        itemDiv.append(countryFlag, contentDiv);
+
+        let wrapper = document.querySelector('.countries-container');
+        if (!wrapper) {
+            wrapper = document.createElement('div');
+            wrapper.className = 'countries-container';
+            document.querySelector('.container').appendChild(wrapper);
+        }
+        wrapper.appendChild(itemDiv);
     })
 }
-renderCountries();
+renderCountries()
+
