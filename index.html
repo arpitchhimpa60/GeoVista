@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div id="name">
-            <h1><img>GeoVista</h1>
-        </div>
-        <div id="nav">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+    <div class="container">
+        <header>
+            <div class="name">
+                <div>
+                    <h1>🌏 GeoVista</h1>
+                    <p>Explore countries around the world</p>
+                </div>
+            </div>
+        </header>
 
-        </div>
-    </header>
+        <main>
+            <div class="controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search country...">
+                    <button id="searchButton">Search</button>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 <script src="script.js"></script>
 </html>
