@@ -57,3 +57,43 @@ header p {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+.country-card {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+.country-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px var(--shadow-hover);
+}
+.flag-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+    background-color: var(--flag-bg);
+}
+.card-content {
+    padding: 20px;
+}
+
+.card-content h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--card-heading);
+}
+
+.card-info {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.card-info span {
+    font-weight: 600;
+    color: var(--card-heading);
+}
