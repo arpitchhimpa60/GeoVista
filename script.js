@@ -1,4 +1,5 @@
-// const search = document.getElementById('searchInput');
+const search = document.getElementById('searchButton');
+const searchInput = document.getElementById('searchInput');
 
 async function fetchCountries(){
     const res = await fetch("https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region");
@@ -54,3 +55,57 @@ async function renderCountries(){
 }
 renderCountries()
 
+async function searchCountries(query){
+        if (query === "") {
+            alert("Please enter a country name to search.");
+            return;
+        }
+        else{
+            let data = await fetchCountries();
+            if ( query.toLowerCase() === data.filter((country) => country.name.common.toLowerCase().includes(query.toLowerCase())) ) {
+                // Do something
+                const newDiv = document.createElement('div');
+                newDiv.style.border = "3px solid #0a0a0a";
+
+                let countryName = document.createElement('h2');
+                countryName.textContent = "Country: " + country.name.common;
+                
+                let countryFlag = document.createElement('img');
+                countryFlag.src = country.flags.png;
+                countryFlag.alt = "Flag of " + country.name.common; 
+                countryFlag.className = 'flag-image';    
+
+                let countryCapital = document.createElement('p');
+                countryCapital.textContent = "Capital: " + country.capital[0];
+                
+                let countryPopulation = document.createElement('p');
+                countryPopulation.textContent = "Population: " + country.population;
+
+                let countryRegion = document.createElement('p');
+                countryRegion.textContent = "Region: " + country.region;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'card-content';
+                contentDiv.style.backgroundColor = "rgb(164, 132, 132)";
+
+                contentDiv.append(countryName, countryCapital, countryPopulation, countryRegion);
+
+                newDiv.append(countryFlag, contentDiv); 
+                document.querySelector('.container').appendChild(newDiv);
+
+                let wrapper = document.querySelector('.countries-container');
+                if (!wrapper) {
+                    wrapper = document.createElement('div');
+                    wrapper.className = 'countries-container';
+                    document.querySelector('.container').appendChild(wrapper);
+                }
+                wrapper.appendChild(newDiv);
+            }
+            else{
+                alert("No country found with the name: " + query);
+            }
+
+        }
+}
+
+search.addEventListener("click",searchCountries(searchInput.value));
