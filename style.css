@@ -147,3 +147,79 @@ header p {
     grid-template-columns: repeat(4,1fr);
     gap: 20px;
 }
+
+
+/* RESPONSIVE DESIGN */
+
+/* Tablet (<= 1024px) */
+@media (max-width: 1024px) {
+    .countries-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .search-box input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .search-box {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+/* Mobile (<= 768px) */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    header p {
+        font-size: 0.95rem;
+    }
+
+    .countries-container {
+        grid-template-columns: 1fr;
+    }
+
+    .controls {
+        gap: 20px;
+    }
+
+    .filter-box {
+        flex-direction: column;
+    }
+
+    #regionFilter,
+    #populationFilter,
+    #sortBy,
+    #resetBtn {
+        width: 100%;
+    }
+}
+
+/* Small Mobile (<= 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    .card-content {
+        padding: 15px;
+    }
+
+    .flag-image {
+        height: 120px;
+    }
+}
