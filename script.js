@@ -69,7 +69,7 @@ async function searchCountries(query){
 
     let wrapper = document.querySelector('.countries-container');
     if (wrapper) {
-        wrapper.innerHTML = ""; // clear previous results
+        wrapper.innerHTML = ""; 
     } else {
         wrapper = document.createElement('div');
         wrapper.className = 'countries-container';
