@@ -1,6 +1,4 @@
-// ============================================
-// DOM ELEMENTS
-// ============================================
+
 const searchButton = document.getElementById('searchButton');
 const searchInput = document.getElementById('searchInput');
 const regionFilter = document.getElementById('regionFilter');
@@ -9,22 +7,10 @@ const sortBySelect = document.getElementById('sortBy');
 const resetButton = document.getElementById('resetBtn');
 
 
-// data --> {name: {common: "India"},
-// flags: {png: "https://flagcdn.com/w320/in.png"},
-// capital: ["New Delhi"],
-// population: 1393409038,
-// region: "Asia"}
-
-
-// ============================================
-// DATA STORAGE
-// ============================================
 let allCountries = [];
 let currentCountries = [];
 
-// ============================================
-// FETCH DATA FROM API
-// ============================================
+
 function fetchCountries() {
     const url = "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region";
     return fetch(url).then(function(response) {
@@ -32,44 +18,42 @@ function fetchCountries() {
     });
 }
 
-// ============================================
-// CREATE ONE COUNTRY CARD
-// ============================================
+
 function createCountryCard(country) {
-    // Create main card container
+    // main card container
     const card = document.createElement('div');
     card.className = 'country-card';
 
-    // Create flag image
+    // flag image
     const flag = document.createElement('img');
     flag.src = country.flags.png;
     flag.alt = "Flag of " + country.name.common;
     flag.className = 'flag-image';
 
-    // Create content section
+    //  content section
     const content = document.createElement('div');
     content.className = 'card-content';
 
-    // Create country name heading
+    // country name heading
     const name = document.createElement('h2');
     name.textContent = country.name.common;
 
-    // Create capital text
+    //  capital text
     const capitalText = "Capital: " + (country.capital ? country.capital[0] : "N/A");
     const capital = document.createElement('p');
     capital.textContent = capitalText;
 
-    // Create population text
+    // population text
     const populationText = "Population: " + country.population;
     const population = document.createElement('p');
     population.textContent = populationText;
 
-    // Create region text
+    // region text
     const regionText = "Region: " + country.region;
     const region = document.createElement('p');
     region.textContent = regionText;
 
-    // Add all text elements to content
+    // appending to conetent
     content.appendChild(name);
     content.appendChild(capital);
     content.appendChild(population);
@@ -82,16 +66,14 @@ function createCountryCard(country) {
     return card;
 }
 
-// ============================================
-// RENDER ALL COUNTRIES
-// ============================================
+
 function renderCountries(countries) {
     const container = document.querySelector('.countries-container');
 
-    // Clear container
+    
     container.innerHTML = '';
 
-    // Show message if no countries found
+   
     if (countries.length === 0) {
         const message = document.createElement('div');
         message.style.gridColumn = "1 / -1";
@@ -103,16 +85,14 @@ function renderCountries(countries) {
         return;
     }
 
-    // Add each country card
+    
     for (let i = 0; i < countries.length; i++) {
         const card = createCountryCard(countries[i]);
         container.appendChild(card);
     }
 }
 
-// ============================================
-// FILTER BY REGION
-// ============================================
+
 function filterByRegion(countries) {
     const selectedRegion = regionFilter.value;
 
@@ -130,9 +110,7 @@ function filterByRegion(countries) {
     return filtered;
 }
 
-// ============================================
-// FILTER BY POPULATION
-// ============================================
+
 function filterByPopulation(countries) {
     const selectedPopulation = populationFilter.value;
 
@@ -163,9 +141,6 @@ function filterByPopulation(countries) {
     return filtered;
 }
 
-// ============================================
-// SORT COUNTRIES
-// ============================================
 function sortCountries(countries) {
     const sortOption = sortBySelect.value;
 
@@ -192,9 +167,6 @@ function sortCountries(countries) {
     return sorted;
 }
 
-// ============================================
-// SEARCH BY COUNTRY NAME
-// ============================================
 function searchByName(query) {
     if (query.trim() === '') {
         return allCountries;
@@ -213,66 +185,43 @@ function searchByName(query) {
     return results;
 }
 
-// ============================================
-// APPLY ALL FILTERS AND SORTING
-// ============================================
+
 function applyAllFilters() {
-    // Start with all countries
+   
     let results = allCountries.slice();
-
-    // Apply region filter
     results = filterByRegion(results);
-
-    // Apply population filter
     results = filterByPopulation(results);
-
-    // Apply sorting
     results = sortCountries(results);
 
-    // Update current countries and render
     currentCountries = results;
     renderCountries(currentCountries);
 }
 
-// ============================================
-// SEARCH HANDLER
-// ============================================
 function handleSearch() {
     const query = searchInput.value;
-
-    // Search by name
     let results = searchByName(query);
-
-    // Apply filters to search results
     results = filterByRegion(results);
     results = filterByPopulation(results);
-
-    // Apply sorting
     results = sortCountries(results);
 
-    // Update current countries and render
     currentCountries = results;
     renderCountries(currentCountries);
 }
 
-// ============================================
-// RESET ALL FILTERS
-// ============================================
+
 function resetAllFilters() {
-    // Clear all input values
+
     searchInput.value = '';
     regionFilter.value = '';
     populationFilter.value = '';
     sortBySelect.value = '';
 
-    // Show all countries
+ 
     currentCountries = allCountries.slice();
     renderCountries(currentCountries);
 }
 
-// ============================================
-// LOAD ALL COUNTRIES ON PAGE START
-// ============================================
+
 function loadCountries() {
     fetchCountries().then(function(data) {
         allCountries = data;
@@ -281,16 +230,12 @@ function loadCountries() {
     });
 }
 
-// ============================================
-// EVENT LISTENERS
-// ============================================
 
-// Search button click
 searchButton.addEventListener('click', function() {
     handleSearch();
 });
 
-// Search input - Enter key
+
 searchInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         handleSearch();
@@ -303,7 +248,5 @@ populationFilter.addEventListener('change', function() {applyAllFilters()});
 sortBySelect.addEventListener('change', function() {applyAllFilters()});
 resetButton.addEventListener('click', function() {resetAllFilters()});
 
-// ============================================
-// START THE APP
-// ============================================
+
 loadCountries();
