@@ -1,252 +1,203 @@
-
-const searchButton = document.getElementById('searchButton');
-const searchInput = document.getElementById('searchInput');
 const regionFilter = document.getElementById('regionFilter');
 const populationFilter = document.getElementById('populationFilter');
-const sortBySelect = document.getElementById('sortBy');
-const resetButton = document.getElementById('resetBtn');
+const sortBy = document.getElementById('sortBy');
+const resetBtn = document.getElementById('resetBtn');
+const search = document.getElementById('searchButton');
+const searchInput = document.getElementById('searchInput');
 
 
-let allCountries = [];
-let currentCountries = [];
+// FETCH DATA
+async function fetchCountries(){
+    const res = await fetch("https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region");
+    const data = await res.json();
+    return data;
+}
+// data --> {name: {common: "India"},
+//           flags: {png: "https://flagcdn.com/w320/in.png"},
+//           capital: ["New Delhi"], 
+//           population: 1393409038, 
+//           region: "Asia"}
 
+// RENDER ALL COUNTRIES
+async function renderCountries(){
+    let data = await fetchCountries();
 
-function fetchCountries() {
-    const url = "https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region";
-    return fetch(url).then(function(response) {
-        return response.json();
+    let wrapper = document.querySelector('.countries-container');
+    wrapper.innerHTML = "";
+
+    data.forEach((country) => {
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'country-card';
+
+        let countryName = document.createElement('h2');
+        countryName.textContent = "Country: " + country.name.common;
+
+        let countryFlag = document.createElement('img');
+        countryFlag.src = country.flags.png;
+        countryFlag.className = 'flag-image';
+
+        let countryCapital = document.createElement('p');
+        countryCapital.textContent = "Capital: " + (country.capital ? country.capital[0] : "N/A");
+
+        let countryPopulation = document.createElement('p');
+        countryPopulation.textContent = "Population: " + country.population;
+
+        let countryRegion = document.createElement('p');
+        countryRegion.textContent = "Region: " + country.region;
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+
+        contentDiv.append(countryName, countryCapital, countryPopulation, countryRegion);
+        itemDiv.append(countryFlag, contentDiv);
+
+        wrapper.appendChild(itemDiv);
     });
 }
 
 
-function createCountryCard(country) {
-    // main card container
-    const card = document.createElement('div');
-    card.className = 'country-card';
-
-    // flag image
-    const flag = document.createElement('img');
-    flag.src = country.flags.png;
-    flag.alt = "Flag of " + country.name.common;
-    flag.className = 'flag-image';
-
-    //  content section
-    const content = document.createElement('div');
-    content.className = 'card-content';
-
-    // country name heading
-    const name = document.createElement('h2');
-    name.textContent = country.name.common;
-
-    //  capital text
-    const capitalText = "Capital: " + (country.capital ? country.capital[0] : "N/A");
-    const capital = document.createElement('p');
-    capital.textContent = capitalText;
-
-    // population text
-    const populationText = "Population: " + country.population;
-    const population = document.createElement('p');
-    population.textContent = populationText;
-
-    // region text
-    const regionText = "Region: " + country.region;
-    const region = document.createElement('p');
-    region.textContent = regionText;
-
-    // appending to conetent
-    content.appendChild(name);
-    content.appendChild(capital);
-    content.appendChild(population);
-    content.appendChild(region);
-
-    // Add flag and content to card
-    card.appendChild(flag);
-    card.appendChild(content);
-
-    return card;
-}
-
-
-function renderCountries(countries) {
-    const container = document.querySelector('.countries-container');
-
-    
-    container.innerHTML = '';
-
-   
-    if (countries.length === 0) {
-        const message = document.createElement('div');
-        message.style.gridColumn = "1 / -1";
-        message.style.textAlign = "center";
-        message.style.padding = "40px";
-        message.style.color = "#999";
-        message.textContent = "No countries found";
-        container.appendChild(message);
+// SEARCH FUNCTION
+async function searchCountries(query){
+    if (query === "") {
+        alert("Please enter a country name to search.");
         return;
     }
 
-    
-    for (let i = 0; i < countries.length; i++) {
-        const card = createCountryCard(countries[i]);
-        container.appendChild(card);
-    }
-}
+    let data = await fetchCountries();
 
+    const filtered = data.filter((country) =>
+        country.name.common.toLowerCase().includes(query.toLowerCase())
+    );
 
-function filterByRegion(countries) {
-    const selectedRegion = regionFilter.value;
+    let wrapper = document.querySelector('.countries-container');
+    wrapper.innerHTML = "";
 
-    if (selectedRegion === '') {
-        return countries;
-    }
-
-    const filtered = [];
-    for (let i = 0; i < countries.length; i++) {
-        if (countries[i].region === selectedRegion) {
-            filtered.push(countries[i]);
-        }
+    if (filtered.length === 0) {
+        alert("No country found with the name: " + query);
+        return;
     }
 
-    return filtered;
-}
+    filtered.forEach((country) => {
 
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'country-card';
 
-function filterByPopulation(countries) {
-    const selectedPopulation = populationFilter.value;
+        let countryName = document.createElement('h2');
+        countryName.textContent = "Country: " + country.name.common;
 
-    if (selectedPopulation === '') {
-        return countries;
-    }
+        let countryFlag = document.createElement('img');
+        countryFlag.src = country.flags.png;
+        countryFlag.className = 'flag-image';
 
-    const filtered = [];
+        let countryCapital = document.createElement('p');
+        countryCapital.textContent = "Capital: " + (country.capital ? country.capital[0] : "N/A");
 
-    for (let i = 0; i < countries.length; i++) {
-        const country = countries[i];
-        const pop = country.population;
-        let matches = false;
+        let countryPopulation = document.createElement('p');
+        countryPopulation.textContent = "Population: " + country.population;
 
-        if (selectedPopulation === 'below-1m' && pop < 1000000) {
-            matches = true;
-        } else if (selectedPopulation === '1m-50m' && pop >= 1000000 && pop <= 50000000) {
-            matches = true;
-        } else if (selectedPopulation === 'above-50m' && pop > 50000000) {
-            matches = true;
-        }
+        let countryRegion = document.createElement('p');
+        countryRegion.textContent = "Region: " + country.region;
 
-        if (matches) {
-            filtered.push(country);
-        }
-    }
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
 
-    return filtered;
-}
+        contentDiv.append(countryName, countryCapital, countryPopulation, countryRegion);
+        itemDiv.append(countryFlag, contentDiv);
 
-function sortCountries(countries) {
-    const sortOption = sortBySelect.value;
-
-    if (sortOption === '') {
-        return countries;
-    }
-
-    const sorted = countries.slice();
-
-    if (sortOption === 'name') {
-        sorted.sort(function(a, b) {
-            const nameA = a.name.common.toLowerCase();
-            const nameB = b.name.common.toLowerCase();
-            if (nameA < nameB) return -1;
-            if (nameA > nameB) return 1;
-            return 0;
-        });
-    } else if (sortOption === 'population') {
-        sorted.sort(function(a, b) {
-            return b.population - a.population;
-        });
-    }
-
-    return sorted;
-}
-
-function searchByName(query) {
-    if (query.trim() === '') {
-        return allCountries;
-    }
-
-    const searchTerm = query.toLowerCase();
-    const results = [];
-
-    for (let i = 0; i < allCountries.length; i++) {
-        const countryName = allCountries[i].name.common.toLowerCase();
-        if (countryName.includes(searchTerm)) {
-            results.push(allCountries[i]);
-        }
-    }
-
-    return results;
-}
-
-
-function applyAllFilters() {
-   
-    let results = allCountries.slice();
-    results = filterByRegion(results);
-    results = filterByPopulation(results);
-    results = sortCountries(results);
-
-    currentCountries = results;
-    renderCountries(currentCountries);
-}
-
-function handleSearch() {
-    const query = searchInput.value;
-    let results = searchByName(query);
-    results = filterByRegion(results);
-    results = filterByPopulation(results);
-    results = sortCountries(results);
-
-    currentCountries = results;
-    renderCountries(currentCountries);
-}
-
-
-function resetAllFilters() {
-
-    searchInput.value = '';
-    regionFilter.value = '';
-    populationFilter.value = '';
-    sortBySelect.value = '';
-
- 
-    currentCountries = allCountries.slice();
-    renderCountries(currentCountries);
-}
-
-
-function loadCountries() {
-    fetchCountries().then(function(data) {
-        allCountries = data;
-        currentCountries = data.slice();
-        renderCountries(currentCountries);
+        wrapper.appendChild(itemDiv);
     });
 }
 
 
-searchButton.addEventListener('click', function() {
-    handleSearch();
-});
+// SORT FUNCTION
+async function applyFilters(){
+    let data = await fetchCountries();
 
-
-searchInput.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        handleSearch();
+    // REGION FILTER
+    if(regionFilter.value !== ""){
+        data = data.filter((country) => country.region === regionFilter.value);
     }
-});
+
+    // POPULATION FILTER
+    if(populationFilter.value !== ""){
+        data = data.filter((country) => {
+            if(populationFilter.value === "below-1m"){
+                return country.population < 1000000;
+            }
+            else if(populationFilter.value === "1m-50m"){
+                return country.population >= 1000000 && country.population <= 50000000;
+            }
+            else if(populationFilter.value === "above-50m"){
+                return country.population > 50000000;
+            }
+        });
+    }
+
+    // SORTING
+    if(sortBy.value === "name"){
+        data.sort((a,b) => a.name.common.localeCompare(b.name.common));
+    }
+    else if(sortBy.value === "population"){
+        data.sort((a,b) => b.population - a.population);
+    }
+
+    let wrapper = document.querySelector('.countries-container');
+    wrapper.innerHTML = "";
+
+    if(data.length === 0){
+        alert("No countries found");
+        return;
+    }
+
+    data.forEach((country) => {
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'country-card';
+
+        let countryName = document.createElement('h2');
+        countryName.textContent = "Country: " + country.name.common;
+
+        let countryFlag = document.createElement('img');
+        countryFlag.src = country.flags.png;
+        countryFlag.className = 'flag-image';
+
+        let countryCapital = document.createElement('p');
+        countryCapital.textContent = "Capital: " + (country.capital ? country.capital[0] : "N/A");
+
+        let countryPopulation = document.createElement('p');
+        countryPopulation.textContent = "Population: " + country.population;
+
+        let countryRegion = document.createElement('p');
+        countryRegion.textContent = "Region: " + country.region;
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+
+        contentDiv.append(countryName, countryCapital, countryPopulation, countryRegion);
+        itemDiv.append(countryFlag, contentDiv);
+
+        wrapper.appendChild(itemDiv);
+    });
+}
 
 
-regionFilter.addEventListener('change', function() {applyAllFilters()});
-populationFilter.addEventListener('change', function() {applyAllFilters()});
-sortBySelect.addEventListener('change', function() {applyAllFilters()});
-resetButton.addEventListener('click', function() {resetAllFilters()});
+// RESET FUNCTION
+function resetFilters(){
+    regionFilter.value = "";
+    populationFilter.value = "";
+    sortBy.value = "";
+    searchInput.value = "";
+
+    renderCountries();
+}
 
 
-loadCountries();
+
+search.addEventListener("click", () => {searchCountries(searchInput.value)});
+regionFilter.addEventListener("change", applyFilters);
+populationFilter.addEventListener("change", applyFilters);
+sortBy.addEventListener("change", applyFilters);
+resetBtn.addEventListener("click", resetFilters);
+
+renderCountries();
