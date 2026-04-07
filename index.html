@@ -3,54 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>GeoVista - Explore Countries</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="name">
-                <div>
-                    <h1>🌏 GeoVista</h1>
-                    <p>Explore countries around the world</p>
-                </div>
+
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">🌏 GeoVista</div>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search countries by name...">
+                <button id="searchButton">Search</button>
             </div>
-        </header>
 
-        <main>
-            <div class="controls">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search country...">
-                    <button id="searchButton">Search</button>
-                </div>
-                <div class="filter-box">
-                    <select id="regionFilter">
-                        <option value="">Filter by Region</option>
-                        <option value="Africa">Africa</option>
-                        <option value="Americas">Americas</option>
-                        <option value="Asia">Asia</option>
-                        <option value="Europe">Europe</option>
-                        <option value="Oceania">Oceania</option>
-                    </select>
+            <div class="filters">
+                <select id="regionFilter" aria-label="Filter by region">
+                    <option value="">Region</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Americas">Americas</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europe</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
 
-                    <select id="populationFilter">
-                    <option value="">All Population</option>
+                <select id="populationFilter" aria-label="Filter by population">
+                    <option value="">Population</option>
                     <option value="below-1m">Below 1M</option>
-                    <option value="1m-50m">1M to 50M</option>
+                    <option value="1m-50m">1M–50M</option>
                     <option value="above-50m">Above 50M</option>
-                    </select>
+                </select>
 
-                    <select id="sortBy">
-                    <option value="">Sort By</option>
-                    <option value="name">Name (A-Z)</option>
-                    <option value="population">Population (High to Low)</option>
-                    </select>
+                <select id="sortBy" aria-label="Sort countries">
+                    <option value="">Sort</option>
+                    <option value="name">A–Z</option>
+                    <option value="population">High → Low</option>
+                </select>
 
-                    <button id="resetBtn" class="reset-btn">Reset Filters</button>
-                </div>
+                <button id="resetBtn" class="reset-btn">Reset</button>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light theme">🌙</button>
             </div>
-        </main>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="countries-container"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
