@@ -121,6 +121,8 @@ async function applyFilters(){
     // Sorting by alphateically order
     if(sortBy.value === "name"){
         data.sort((a,b) => a.name.common.localeCompare(b.name.common))
+    }else if(sortBy.value === "population"){
+        data.sort((a,b) => b.population - a.population)
     }
 
     let wrapper = document.querySelector('.countries-container')
