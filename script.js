@@ -175,31 +175,17 @@ function resetFilters(){
     renderCountries()
 }
 
-// THEME TOGGLE FUNCTIONS
-function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme')
-    const body = document.body
 
-    if (savedTheme === 'dark') {
-        body.classList.add('dark-theme')
-        themeToggle.textContent = '🌙'
-    } else {
-        body.classList.remove('dark-theme')
-        themeToggle.textContent = '☀️'
-    }
-}
-
+// Theme toggle
 function toggleTheme() {
     const body = document.body
 
     if (body.classList.contains('dark-theme')) {
         body.classList.remove('dark-theme')
         themeToggle.textContent = '☀️'
-        localStorage.setItem('theme', 'light')
     } else {
         body.classList.add('dark-theme')
         themeToggle.textContent = '🌙'
-        localStorage.setItem('theme', 'dark')
     }
 }
 
@@ -209,5 +195,5 @@ sortBy.addEventListener("change", applyFilters)
 resetBtn.addEventListener("click", resetFilters)
 themeToggle.addEventListener("click", toggleTheme)
 
-initializeTheme()
+
 renderCountries()
