@@ -3,6 +3,7 @@ const sortBy = document.getElementById('sortBy')
 const resetBtn = document.getElementById('resetBtn')
 const search = document.getElementById('searchButton')
 const searchInput = document.getElementById('searchInput')
+const themeToggle = document.getElementById('themeToggle')
 
 
 // Feching data
@@ -174,11 +175,39 @@ function resetFilters(){
     renderCountries()
 }
 
+// THEME TOGGLE FUNCTIONS
+function initializeTheme() {
+    const savedTheme = localStorage.getItem('theme')
+    const body = document.body
 
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-theme')
+        themeToggle.textContent = '🌙'
+    } else {
+        body.classList.remove('dark-theme')
+        themeToggle.textContent = '☀️'
+    }
+}
+
+function toggleTheme() {
+    const body = document.body
+
+    if (body.classList.contains('dark-theme')) {
+        body.classList.remove('dark-theme')
+        themeToggle.textContent = '☀️'
+        localStorage.setItem('theme', 'light')
+    } else {
+        body.classList.add('dark-theme')
+        themeToggle.textContent = '🌙'
+        localStorage.setItem('theme', 'dark')
+    }
+}
 
 search.addEventListener("click", () => {searchCountries(searchInput.value)})
 regionFilter.addEventListener("change", applyFilters)
 sortBy.addEventListener("change", applyFilters)
 resetBtn.addEventListener("click", resetFilters)
+themeToggle.addEventListener("click", toggleTheme)
 
+initializeTheme()
 renderCountries()
