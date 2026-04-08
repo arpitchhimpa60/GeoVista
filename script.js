@@ -1,5 +1,4 @@
 const regionFilter = document.getElementById('regionFilter');
-const populationFilter = document.getElementById('populationFilter');
 const sortBy = document.getElementById('sortBy');
 const resetBtn = document.getElementById('resetBtn');
 const search = document.getElementById('searchButton');
@@ -119,21 +118,6 @@ async function applyFilters(){
         data = data.filter((country) => country.region === regionFilter.value);
     }
 
-    // POPULATION FILTER
-    if(populationFilter.value !== ""){
-        data = data.filter((country) => {
-            if(populationFilter.value === "below-1m"){
-                return country.population < 1000000;
-            }
-            else if(populationFilter.value === "1m-50m"){
-                return country.population >= 1000000 && country.population <= 50000000;
-            }
-            else if(populationFilter.value === "above-50m"){
-                return country.population > 50000000;
-            }
-        });
-    }
-
     // SORTING
     if(sortBy.value === "name"){
         data.sort((a,b) => a.name.common.localeCompare(b.name.common));
@@ -185,7 +169,6 @@ async function applyFilters(){
 // RESET FUNCTION
 function resetFilters(){
     regionFilter.value = "";
-    populationFilter.value = "";
     sortBy.value = "";
     searchInput.value = "";
 
@@ -196,7 +179,6 @@ function resetFilters(){
 
 search.addEventListener("click", () => {searchCountries(searchInput.value)});
 regionFilter.addEventListener("change", applyFilters);
-populationFilter.addEventListener("change", applyFilters);
 sortBy.addEventListener("change", applyFilters);
 resetBtn.addEventListener("click", resetFilters);
 
