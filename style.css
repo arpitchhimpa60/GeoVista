@@ -271,7 +271,7 @@ body.dark-theme .reset-btn {
 }
 
 body.dark-theme .reset-btn:hover {
-    background-color: rgba(255, 80, 80, 0.25) ;
+    background-color: rgba(255, 80, 80, 0.25);
     border-color: rgba(255, 120, 120, 0.5);
 }
 
@@ -305,7 +305,7 @@ body.dark-theme .card-content p {
     color: #6aaa6a;
 }
 
-/* RESPONSIVE */
+/* Responsive */
 @media (max-width: 1024px) {
     .navbar {
         flex-wrap: wrap;
